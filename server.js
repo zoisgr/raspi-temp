@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const express = require('express');
-const { readFile } = require('fs/promises');
+const { readFile } = require('fs').promises;
 
 
 const app = express();
@@ -11,7 +11,7 @@ app.use(express.static(__dirname + '/public'));
 
 
 app.get('/stats', async (_, res) => {
-    const temp = +await readFile('/sys/class/thermal/thermal_zone0/temp', 'utf-8') / 1000;
+    const temp = (+await readFile('/sys/class/thermal/thermal_zone0/temp', 'utf-8') / 1000).toFixed(1);
 
     let load = await readFile('/proc/loadavg', 'utf-8');
     load = load.match(/^.*? .*? .*? /)[0].trim();
